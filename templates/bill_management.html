@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sankalpa Enterprises - Bill Management</title>
+    <script src="{{ url_for('static', filename='js/tailwind.min.js') }}"></script>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/all.min.css') }}" />
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/inter_fonts.css') }}" />
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <div class="flex flex-col min-h-screen">
+
+        <header class="bg-white shadow-sm sticky top-0 z-10">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex items-center">
+                <img class="h-12 w-auto" src="{{ url_for('static', filename='images/logo1.png') }}" alt="Sankalpa Enterprises Logo">
+            </div>
+
+                    <nav class="hidden md:flex items-center space-x-8">
+                        <a href="{{ url_for('home') }}" class="nav-link text-gray-600 hover:text-blue-600 font-medium pb-1 transition duration-150 ease-in-out">Home</a>
+                        <a href="{{ url_for('bill_management') }}" class="nav-link text-gray-600 hover:text-blue-600 font-medium pb-1 transition duration-150 ease-in-out active">Bill</a>
+                        <a href="#" class="text-gray-600 hover:text-blue-600 font-medium">Data Analysis</a>
+                        <a href="{{ url_for('database') }}" class="nav-link text-gray-600 hover:text-blue-600 font-medium pb-1 transition duration-150 ease-in-out">Database</a>
+                        <a href="{{ url_for('payment_tracker') }}" class="nav-link text-gray-600 hover:text-blue-600 font-medium pb-1 transition duration-150 ease-in-out">Payment Tracker</a>
+                        <a href="{{ url_for('todo') }}" class="nav-link text-gray-600 hover:text-blue-600 font-medium pb-1 transition duration-150 ease-in-out">To-do List</a>
+                    </nav>
+
+                    <div class="flex items-center space-x-4">
+    <span class="text-sm font-medium text-gray-600">Welcome, {{ current_user.username }}</span>
+    <a href="{{ url_for('logout') }}" title="Logout" class="p-2 rounded-full hover:bg-gray-100">
+        <i class="fa-solid fa-right-from-bracket text-gray-600"></i>
+    </a>
+</div>
+                </div>
+            </div>
+        </header>
+
+        <main class="flex-grow container mx-auto p-4 sm:p-6 lg:p-8">
+
+            <div id="bill-management-page">
+                <div class="mb-6">
+                    <h1 class="text-3xl font-bold text-gray-900">Bill Management</h1>
+                    <p class="text-gray-500 mt-1">Create, manage, and track all your bills</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+                        <div class="relative w-full md:w-1/2 lg:w-1/3">
+                            <i class="fa-solid fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                            <input type="text" id="search-bill-history" placeholder="Search bills by number, date, or amount..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <!--<button class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100">
+                                <i class="fa-solid fa-filter text-gray-600"></i>
+                            </button>-->
+                            <a href="{{ url_for('new_bill') }}" id="new-bill-btn" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors duration-300 flex items-center space-x-2">
+                                <i class="fa-solid fa-plus"></i>
+                                <span>New Bill</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h2 class="text-xl font-semibold mb-4 text-gray-800">Bill History</h2>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left">
+                                <thead>
+                                    <tr class="bg-gray-100 text-gray-600 uppercase text-sm">
+                                        <th class="py-3 px-4 font-semibold">S.No.</th>
+                                        <th class="py-3 px-4 font-semibold">Bill Number</th>
+                                        <th class="py-3 px-4 font-semibold">Date</th>
+                                        <th class="py-3 px-4 font-semibold">Total Items</th>
+                                        <th class="py-3 px-4 font-semibold">Total Amount</th>
+                                        <th class="py-3 px-4 font-semibold text-center">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-gray-700">
+                                    <!--<tr class="border-b border-gray-200 hover:bg-gray-50">
+                                        <td class="py-3 px-4">1</td>
+                                        <td class="py-3 px-4"><a href="{{ url_for('bill_details') }}" class="bill-link text-blue-600 hover:underline font-medium">BILL-2024-001</a></td>
+                                        <td class="py-3 px-4">Jan 15, 2024</td>
+                                        <td class="py-3 px-4">5</td>
+                                        <td class="py-3 px-4">$1,250.00</td>
+                                        <td class="py-3 px-4 text-center"><button class="text-red-500 hover:text-red-700"><i class="fa-solid fa-trash-can"></i></button></td>
+                                    </tr>
+                                    <tr class="border-b border-gray-200 hover:bg-gray-50">
+                                        <td class="py-3 px-4">2</td>
+                                        <td class="py-3 px-4"><a href="bill-details.html" class="bill-link text-blue-600 hover:underline font-medium">BILL-2024-002</a></td>
+                                        <td class="py-3 px-4">Jan 14, 2024</td>
+                                        <td class="py-3 px-4">3</td>
+                                        <td class="py-3 px-4">$850.50</td>
+                                        <td class="py-3 px-4 text-center"><button class="text-red-500 hover:text-red-700"><i class="fa-solid fa-trash-can"></i></button></td>
+                                    </tr>
+                                    <tr class="border-b border-gray-200 hover:bg-gray-50">
+                                        <td class="py-3 px-4">3</td>
+                                        <td class="py-3 px-4"><a href="bill-details.html" class="bill-link text-blue-600 hover:underline font-medium">BILL-2024-003</a></td>
+                                        <td class="py-3 px-4">Jan 13, 2024</td>
+                                        <td class="py-3 px-4">8</td>
+                                        <td class="py-3 px-4">$2,100.75</td>
+                                        <td class="py-3 px-4 text-center"><button class="text-red-500 hover:text-red-700"><i class="fa-solid fa-trash-can"></i></button></td>
+                                    </tr>
+                                    <tr class="border-b border-gray-200 hover:bg-gray-50">
+                                        <td class="py-3 px-4">4</td>
+                                        <td class="py-3 px-4"><a href="bill-details.html" class="bill-link text-blue-600 hover:underline font-medium">BILL-2024-004</a></td>
+                                        <td class="py-3 px-4">Jan 12, 2024</td>
+                                        <td class="py-3 px-4">2</td>
+                                        <td class="py-3 px-4">$450.00</td>
+                                        <td class="py-3 px-4 text-center"><button class="text-red-500 hover:text-red-700"><i class="fa-solid fa-trash-can"></i></button></td>
+                                    </tr>
+                                     <tr class="border-b border-gray-200 hover:bg-gray-50">
+                                        <td class="py-3 px-4">5</td>
+                                        <td class="py-3 px-4"><a href="bill-details.html" class="bill-link text-blue-600 hover:underline font-medium">BILL-2024-005</a></td>
+                                        <td class="py-3 px-4">Jan 11, 2024</td>
+                                        <td class="py-3 px-4">6</td>
+                                        <td class="py-3 px-4">$1,680.25</td>
+                                        <td class="py-3 px-4 text-center"><button class="text-red-500 hover:text-red-700"><i class="fa-solid fa-trash-can"></i></button></td>
+                                    </tr>
+                                     <tr class="hover:bg-gray-50">
+                                        <td class="py-3 px-4">6</td>
+                                        <td class="py-3 px-4"><a href="bill-details.html" class="bill-link text-blue-600 hover:underline font-medium">BILL-2024-006</a></td>
+                                        <td class="py-3 px-4">Jan 10, 2024</td>
+                                        <td class="py-3 px-4">4</td>
+                                        <td class="py-3 px-4">$920.00</td>
+                                        <td class="py-3 px-4 text-center"><button class="text-red-500 hover:text-red-700"><i class="fa-solid fa-trash-can"></i></button></td>
+                                    </tr> -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="flex justify-between items-center mt-6">
+    <button id="show-all-bills-btn" class="bg-blue-600 text-white px-5 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors duration-300">Show All</button>
+    <p id="bill-count-display" class="text-sm text-gray-500"></p>
+</div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+    </div>
+
+    <button class="fixed bottom-8 right-8 bg-blue-600 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-2xl hover:bg-blue-700 transition-transform transform hover:scale-110">
+        <i class="fa-solid fa-headset"></i>
+    </button>
+    
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/global-notifications.js') }}"></script>
+    
+
+</body>
+</html>

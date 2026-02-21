@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sankalpa Enterprises - To-Do List</title>
+    <script src="{{ url_for('static', filename='js/tailwind.min.js') }}"></script>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/all.min.css') }}" />
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/inter_fonts.css') }}" />
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <div class="flex flex-col min-h-screen">
+
+        <!-- Header -->
+        <header class="bg-white shadow-sm sticky top-0 z-10">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex items-center">
+                <img class="h-12 w-auto" src="{{ url_for('static', filename='images/logo1.png') }}" alt="Sankalpa Enterprises Logo">
+            </div>
+
+                    <nav class="hidden md:flex items-center space-x-8">
+                        <a href="{{ url_for('home') }}" class="nav-link text-gray-600 hover:text-blue-600 font-medium pb-1 transition duration-150 ease-in-out">Home</a>
+                        <a href="{{ url_for('bill_management') }}" class="nav-link text-gray-600 hover:text-blue-600 font-medium pb-1 transition duration-150 ease-in-out">Bill</a>
+                        <a href="#" class="text-gray-600 hover:text-blue-600 font-medium">Data Analysis</a>
+                        <a href="{{ url_for('database') }}" class="nav-link text-gray-600 hover:text-blue-600 font-medium pb-1 transition duration-150 ease-in-out">Database</a>
+                        <a href="{{ url_for('payment_tracker') }}" class="nav-link text-gray-600 hover:text-blue-600 font-medium pb-1 transition duration-150 ease-in-out">Payment Tracker</a>
+                        <a href="{{ url_for('todo') }}" class="nav-link text-gray-600 hover:text-blue-600 font-medium pb-1 transition duration-150 ease-in-out active">To-do List</a>
+                    </nav>
+
+                    <div class="flex items-center space-x-4">
+                        <span class="text-sm font-medium text-gray-600">Welcome, {{ current_user.username }}</span>
+                        <a href="{{ url_for('logout') }}" title="Logout" class="p-2 rounded-full hover:bg-gray-100">
+                            <i class="fa-solid fa-right-from-bracket text-gray-600"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="flex-grow container mx-auto p-4 sm:p-6 lg:p-8">
+            <div id="todo-page">
+                <div class="mb-6">
+                    <h1 class="text-3xl font-bold text-gray-900">Task Reminder</h1>
+                    <p class="text-gray-500 mt-1">Manage your tasks and get timely reminders.</p>
+                </div>
+
+                <!-- Add Task Form -->
+                <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+                    <form id="add-task-form" class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+                        <div class="md:col-span-2">
+                            <label for="task-description" class="block text-sm font-medium text-gray-700">Task Description</label>
+                            <input type="text" id="task-description" placeholder="E.g., Follow up with the client" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label for="task-datetime" class="block text-sm font-medium text-gray-700">Date and Time</label>
+                            <input type="datetime-local" id="task-datetime" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                        <div class="md:col-span-3 text-right">
+                             <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors duration-300 flex items-center space-x-2 ml-auto">
+                                <i class="fa-solid fa-plus"></i>
+                                <span>Add Task</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Task Lists -->
+                <div>
+                    <!-- Pending Tasks -->
+                    <div class="mb-8">
+                        <h2 class="text-xl font-semibold mb-4 text-gray-800">Pending Tasks</h2>
+                        <div id="pending-tasks-list" class="space-y-3">
+                            <!-- Pending tasks will be inserted here -->
+                        </div>
+                    </div>
+
+                    <!-- Completed Tasks -->
+                    <div>
+                        <h2 class="text-xl font-semibold mb-4 text-gray-800">Completed Tasks</h2>
+                        <div id="completed-tasks-list" class="space-y-3">
+                           <!-- Completed tasks will be inserted here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="notification-toast" class="fixed top-5 right-5 bg-red-500 text-white p-4 rounded-lg shadow-lg hidden animate-pulse">
+        <div class="flex items-center space-x-3">
+            <i class="fa-solid fa-bell fa-lg"></i>
+            <div>
+                <p class="font-bold">Task Reminder!</p>
+                <p id="notification-text" class="text-sm"></p>
+            </div>
+        </div>
+    </div>
+    
+    <script src="{{ url_for('static', filename='js/global-notifications.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/todo.js') }}"></script>
+</body>
+</html>
