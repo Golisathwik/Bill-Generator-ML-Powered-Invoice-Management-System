@@ -416,16 +416,18 @@ UPLOAD_FOLDER = 'uploads'                     # Temporary upload directory
 > 7. **Task Management** - To-do list interface
 > 8. **Login Page** - Authentication interface
 
-```markdown
+
 ### Dashboard
-![Dashboard Screenshot](./screenshots/dashboard.png)
+<img width="1366" height="768" alt="Screenshot (159)" src="https://github.com/user-attachments/assets/a971b734-0f0e-4975-bf23-89d97e56ec7b" />
+
 
 ### Bill Management
-![Bill Management Screenshot](./screenshots/bill_management.png)
+<img width="1366" height="768" alt="Screenshot (160)" src="https://github.com/user-attachments/assets/7ebb147c-e769-4749-93af-5b6db65a208d" />
+
 
 ### Create New Bill
-![Create Bill Screenshot](./screenshots/create_bill.png)
-```
+<img width="1366" height="768" alt="Screenshot (161)" src="https://github.com/user-attachments/assets/86db1d20-cde6-4c2b-9d9a-5cf01172e1d3" />
+
 
 ---
 
